@@ -1,7 +1,6 @@
 import sqlite3
 from sqlite3 import Error
 
-
 def create_connection(db_file):
     """ create a database connection to the SQLite database
         specified by db_file
@@ -31,8 +30,8 @@ def create_table(conn, create_table_sql):
         print(e)
 
 
-def main():
-    sql_create_reservation_table = """ CREATE TABLE IF NOT EXISTS reservations (
+
+sql_create_reservation_table = """ CREATE TABLE IF NOT EXISTS reservations (
                                         reservation_id integer PRIMARY KEY,
                                         check_in_date text,
                                         check_out_date text,
@@ -40,28 +39,35 @@ def main():
                                         FOREIGN KEY (room_id) REFERENCES rooms (room_ids)
                                     ); """
 
-    sql_create_user_table = """CREATE TABLE IF NOT EXISTS users (
+sql_create_user_table = """CREATE TABLE IF NOT EXISTS users (
                                     id user_id PRIMARY KEY,
                                     name text NOT NULL,
                                     email text,
                                     phone_number text,
                                 );"""
 
-    sql_create_user_table = """CREATE TABLE IF NOT EXISTS rooms (
+sql_create_rooms_table = """CREATE TABLE IF NOT EXISTS rooms (
                                     id room_id PRIMARY KEY,
                                     room_type NOT NULL,
                                     floor INT
                                 );"""
+
+
+def main():
     # create a database connection
-    conn = create_connection(database)
+    conn = sqlite3.connect("tutorial.db")
 
     # create tables
     if conn is not None:
-        # create projects table
-        create_table(conn, sql_create_projects_table)
 
-        # create tasks table
-        create_table(conn, sql_create_tasks_table)
+        # create user table
+        create_table(conn, sql_create_user_table)
+
+        # create reservationn tables
+        create_table(conn, sql_create_reservation_table)
+
+        # create room table
+        create_table(conn, sql_create_rooms_table)
     else:
         print("Error! cannot create the database connection.")
 
