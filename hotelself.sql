@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 03, 2023 at 04:25 PM
+-- Generation Time: Mar 10, 2023 at 02:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -32,7 +32,9 @@ CREATE TABLE `reservation_id` (
   `Check_in_date` date NOT NULL,
   `Check_out_date` date NOT NULL,
   `user_id` int(10) NOT NULL,
-  `room_id` int(50) NOT NULL
+  `room_id` int(50) NOT NULL,
+  `Checked_in_date` date NOT NULL,
+  `Checked_out_date` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -72,6 +74,8 @@ ALTER TABLE `reservation_id`
   ADD UNIQUE KEY `Check_in_date` (`Check_in_date`),
   ADD UNIQUE KEY `Reservation_ID` (`Reservation_ID`),
   ADD UNIQUE KEY `Check_out_date` (`Check_out_date`),
+  ADD UNIQUE KEY `dd/mm/yy` (`Checked_in_date`),
+  ADD UNIQUE KEY `dd/mm/yyyy` (`Checked_out_date`),
   ADD KEY `Reservation_ID_2` (`Reservation_ID`),
   ADD KEY `Check_in_date_2` (`Check_in_date`),
   ADD KEY `Check_out_date_2` (`Check_out_date`),
@@ -100,6 +104,8 @@ ALTER TABLE `user` ADD FULLTEXT KEY `FullName` (`Name`);
 -- Constraints for table `reservation_id`
 --
 ALTER TABLE `reservation_id`
+  ADD CONSTRAINT `Check_in_date` FOREIGN KEY (`Check_in_date`) REFERENCES `reservation_id` (`Checked_in_date`),
+  ADD CONSTRAINT `Check_out_date` FOREIGN KEY (`Check_out_date`) REFERENCES `reservation_id` (`Checked_out_date`),
   ADD CONSTRAINT `reservation_id_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`User_ID`),
   ADD CONSTRAINT `reservation_id_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `room` (`Room_ID`);
 COMMIT;
