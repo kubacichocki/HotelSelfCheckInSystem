@@ -1,9 +1,9 @@
 
 <HTML>
     <head>
-       <title>Language Example</title>
+       <title>Self Check-in</title>
+       <!-- Import CSS stylesheet -->
        <link rel="stylesheet" href="style.css">
-       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
      </head>
      <body>
@@ -14,10 +14,12 @@
       
                       
        <div id="content">
-        <img src="logo.png" width="400" height = "400" alt="Hotel Logo">
+        <!-- Hotel logo -->
+        <img src="logo.png" width="350" height = "350" alt="Hotel Logo">
+            <!-- Headers -->
             <h1 id="header1">Welcome to our Hotel!<span class="badge bg-secondary"></span></h1>
             <h2 id="header2">In order to check in, fill the form below<span class="badge bg-secondary"></span></h2>  
-            
+            <!-- Bootstrap form -->
             <form action="http://localhost/backend.php" method="POST">
                 <div class="mb-3">
                   <label  class="form-label" id ="name">Enter your name</label>
@@ -37,6 +39,7 @@
                     <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                   </div>
                   <div class="col-6">
+                  <!-- Bootstrap dropdown menu -->
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Change Language
@@ -53,126 +56,7 @@
    
               </div>                     
        </div>
-       <script>
-
-        // Refresh page in order to change the language
-        function refreshPage(selectedOption) {
-          window.location.hash = selectedOption;
-          window.location.reload();
-        }
-
-        // Event listeners
-        document.getElementById("spanish").addEventListener("click", function(){ 
-            refreshPage('#es');
-        });
-
-        document.getElementById("english").addEventListener("click", function(){ 
-              refreshPage('#eng');
-          });
-  
-          document.getElementById("polish").addEventListener("click", function(){ 
-              refreshPage('#pl');
-          });
-
-          document.getElementById("bulgarian").addEventListener("click", function(){ 
-              refreshPage('#bg');
-          });      
-          document.getElementById("romanian").addEventListener("click", function(){ 
-              refreshPage('#ro');
-            
-          });
-
-
-        //Languages 
-        var languages = {
-            eng: {
-                welcome: "Welcome to our hotel!",
-                instruction: "In order to check in, fill the form below ",
-                name: "Enter your name",
-                confirmationNumber: "Enter you booking confirmation number",
-                warning: "Make sure you enter correct details",
-                submit: "Submit"
-            },
-            es: {
-                welcome: 'Binevenidos todos!',
-                instruction: "Para registrarse, complete el siguiente formulario",
-                name: "Introduzca su nombre",
-                confirmationNumber: "Introduzca su número de confirmación de reserva",
-                warning: "Asegúrese de ingresar los detalles correctos",
-                submit: "Entregar"
-            },
-            pl: {
-              welcome: "Witaj w naszym hotelu!",
-              instruction: "Aby się zameldować wypełnij formularz",
-              name: "Podaj swoje imię",
-              confirmationNumber: "Podaj numer rezerwacji",
-              waring: "Upewnij się, że podane dane są prawidłowe",
-              submit: "Wyslij"
-            },
-
-            bg: {
-                welcome: "Добре дошли във нашия хотел!",
-                instruction: "За да се регистрирате,попълнете формата по-долу! ",
-                name: "Въведете вашето име",
-                confirmationNumber: "Въведете вашия номер на резервация",
-                warning: "Уверете се че въвеждате правилно вашите данни",
-                submit: "Изпрати"
-            },
-             ro: {
-                welcome: "Bine ati venit la hotelul nostru!",
-                instruction: "Pentru a face rezervare, completati formularul de mai jos",
-                name: "Introduceti-va numele complet",
-                confirmationNumber: "Introduceti-va numarul confirmarii rezervarii",
-                warning: "Asigurarti-va ca introduceti datele corecte",
-                submit: "Incarcati"
-             }
-                 
-        };
-
-        // Define language through window hash
-        if(window.location.hash) {
-            if(window.location.hash === "#eng"){
-                header1.textContent = languages.eng.welcome
-                header2.textContent = languages.eng.instruction
-                document.getElementById("name").innerHTML = languages.eng.name
-                document.getElementById("confirmationNumber").innerHTML = languages.eng.confirmationNumber
-                document.getElementById("warning").innerHTML = languages.eng.warning
-                document.querySelector('button[type="submit"]').innerHTML = languages.eng.submit
-            }
-            if(window.location.hash === "#es"){
-                header1.textContent = languages.es.welcome
-                header2.textContent = languages.es.instruction
-                document.getElementById("name").innerHTML = languages.es.name
-                document.getElementById("confirmationNumber").innerHTML = languages.es.confirmationNumber
-                document.getElementById("warning").innerHTML = languages.es.warning
-                document.querySelector('button[type="submit"]').innerHTML = languages.es.submit
-            }
-            if(window.location.hash === "#pl"){
-                header1.textContent = languages.pl.welcome
-                header2.textContent = languages.pl.instruction
-                document.getElementById("name").innerHTML = languages.pl.name
-                document.getElementById("confirmationNumber").innerHTML = languages.pl.confirmationNumber
-                document.getElementById("warning").innerHTML = languages.pl.warning
-                document.querySelector('button[type="submit"]').innerHTML = languages.pl.submit
-            }
-            if(window.location.hash === "#bg"){
-                header1.textContent = languages.bg.welcome
-                header2.textContent = languages.bg.instruction
-                document.getElementById("name").innerHTML = languages.bg.name
-                document.getElementById("confirmationNumber").innerHTML = languages.bg.confirmationNumber
-                document.getElementById("warning").innerHTML = languages.bg.warning
-                document.querySelector('button[type="submit"]').innerHTML = languages.bg.submit
-            }
-             if(window.location.hash === "#ro"){
-                header1.textContent = languages.ro.welcome
-                header2.textContent = languages.ro.instruction
-                document.getElementById("name").innerHTML = languages.ro.name
-                document.getElementById("confirmationNumber").innerHTML = languages.ro.confirmationNumber
-                document.getElementById("warning").innerHTML = languages.ro.warning
-                document.querySelector('button[type="submit"]').innerHTML = languages.ro.submit
-             }
-            };
-
-       </script>
+       <!-- import javascript from script.js file -->
+       <script src="script.js"></script>
      </body>
     </HTML>
