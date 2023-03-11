@@ -20,7 +20,9 @@
             <h1 id="header1">Welcome to our Hotel!<span class="badge bg-secondary"></span></h1>
             <h2 id="header2">In order to check in, fill the form below<span class="badge bg-secondary"></span></h2>  
             <!-- Bootstrap form -->
-            <form action="http://localhost/backend.php" method="POST">
+            <form action="http://localhost/backend/backend.php" method="POST">
+              <!-- Hidden input to submit language from dropdown menu -->
+              <input type="hidden" name="language" id="language">
                 <div class="mb-3">
                   <label  class="form-label" id ="name">Enter your name</label>
                   <input type="text" class="form-control" id="nameInput" name="nameInput" aria-describedby="emailHelp" required>
