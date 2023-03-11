@@ -2,6 +2,7 @@
 function refreshPage(selectedOption) {
     window.location.hash = selectedOption;
     window.location.reload();
+    document.getElementById('language').value = selectedOption;
   }
 
   // Event listeners
