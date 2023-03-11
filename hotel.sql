@@ -28,6 +28,8 @@ CREATE TABLE `reservations` (
   `reservation_id` int(50) NOT NULL,
   `check_in_date` date NOT NULL,
   `check_out_date` date NOT NULL,
+  `is_checked_in` BOOLEAN NOT NULL DEFAULT FALSE,
+  `is_checked_out` BOOLEAN NOT NULL DEFAULT FALSE,
   `user_id` int(10) NOT NULL,
   `room_id` int(50),
   PRIMARY KEY (`reservation_id`),
