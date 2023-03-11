@@ -52,8 +52,6 @@
               </form>
    
               </div>                     
-
-
        </div>
        <script>
 
@@ -78,7 +76,7 @@
 
           document.getElementById("bulgarian").addEventListener("click", function(){ 
               refreshPage('#bg');
-            
+          });      
           document.getElementById("romanian").addEventListener("click", function(){ 
               refreshPage('#ro');
             
@@ -127,6 +125,7 @@
                 confirmationNumber: "Introduceti-va numarul confirmarii rezervarii",
                 warning: "Asigurarti-va ca introduceti datele corecte",
                 submit: "Incarcati"
+             }
                  
         };
 
@@ -156,7 +155,6 @@
                 document.getElementById("warning").innerHTML = languages.pl.warning
                 document.querySelector('button[type="submit"]').innerHTML = languages.pl.submit
             }
-
             if(window.location.hash === "#bg"){
                 header1.textContent = languages.bg.welcome
                 header2.textContent = languages.bg.instruction
@@ -172,7 +170,8 @@
                 document.getElementById("confirmationNumber").innerHTML = languages.ro.confirmationNumber
                 document.getElementById("warning").innerHTML = languages.ro.warning
                 document.querySelector('button[type="submit"]').innerHTML = languages.ro.submit
-        }
+             }
+            };
 
        </script>
      </body>
