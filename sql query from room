@@ -1,0 +1,1 @@
+SELECT room.Room_ID FROM room INNER JOIN reservations ON room.Room_ID = reservations.Reservation_ID WHERE room.Room_ID = 25 AND reservations.Reservation_ID = 25;
