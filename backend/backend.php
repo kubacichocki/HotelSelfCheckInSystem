@@ -14,8 +14,7 @@
             $name = $_POST['nameInput'];
             $confirmationNumber = $_POST['confirmationNumberInput'];
             $language = $_POST['language'];
-            echo "You chose the language: $language";
-            echo "Name: $name Confirmation number: $confirmationNumber<br>";
+            $room_type = $_POST['room_type'];
 
             // database details
             $host = "localhost";
@@ -32,48 +31,58 @@
                 die("Connection failed!" . mysqli_connect_error());
             }
         
-            // Prepare query
-            $stmt = $conn->prepare('SELECT users.name, reservations.check_in_date, reservations.check_out_date FROM users 
+            // Prepare query to get the reservation from database
+            $get_reservation_query = $conn->prepare('SELECT users.name, reservations.check_in_date, reservations.check_out_date, reservations.room_id FROM users 
             INNER JOIN reservations ON users.user_id = reservations.user_id 
-            WHERE users.name = ? AND reservations.reservation_id = ?'); 
+            WHERE users.name = ? AND reservations.reservation_id = ? AND reservations.check_in_date = ?'); 
+
+            // get todays date
+            $today = date("Y/m/d");
 
             // Bind parameters separately in order to prevent SQL injections 
-            $stmt->bind_param("ss", $name, $confirmationNumber);
+            $get_reservation_query->bind_param("sss", $name, $confirmationNumber, $today);
 
             // Excecute query
-            $stmt->execute();
-            $result = $stmt->get_result();
-            // echo "RESULTS: ", $result;
-            //  Display results if exist
+            $get_reservation_query->execute();
+            $result = $get_reservation_query->get_result();
+
             if(mysqli_num_rows($result) > 0){
             $reservation_found = TRUE;
-            $message = "You have been checkd in successfully ";
+            $message = "You have been checked in successfully ";
               while($row = $result->fetch_assoc()) {
-                echo "Name: " . $row["name"] . " Check In Date: " . $row["check_in_date"] . " Check Out Date: " . $row["check_out_date"];
+                $check_in_date = $row["check_in_date"];
+                $check_out_date = $row["check_out_date"];
+                $name = $row["name"];
+                $current_room = $row["room_id"];
+                }
+                // Check if the room is already assigned
+                if($current_room == NULL){      
+                  // Query to select available rooms
+                  $get_available_room = $conn->prepare('SELECT r.room_id, r.room_type, r.floor FROM rooms r LEFT JOIN reservations res ON r.room_id = res.room_id WHERE res.check_in_date > ? OR res.check_out_date < ? OR res.check_in_date IS NULL AND r.room_type = ? LIMIT 1;;');
+                  
+                  // Bind parameters
+                  $get_available_room->bind_param("sss",$check_in_date,$check_out_date,$room_type);
+                  
+                  // Excecute query
+                  $get_available_room->execute();
+                  $result_available_room = $get_available_room->get_result();
+    
+                  $row_available_room = $result_available_room->fetch_assoc();
+                  $room = $row_available_room["room_id"];
+    
+                  // Assign room to the reservation
+                  $assign_room = $conn->prepare('UPDATE reservations SET room_id = ? WHERE reservation_id = ?');
+                  // Bind paremeters
+                  $assign_room->bind_param("ss",$room,$confirmationNumber);
+                  // Excecute query
+                  $assign_room->execute();
                 }
             }else{
-              echo "DIDNT FIND RESERVATION";
+              $message = "Unfortunately, we could not find your reservation. Make sure you entered correct details or go to the reception desk for help";
               $reservation_found = FALSE;
             }
 
-            // echo "Searching for available rooms";
 
-            // //  Query available rooms for that date
-            // $date1 = '2023-05-05';
-            // $date2 = '2023-05-07';
-            // $sql2 = "SELECT r.room_id, r.room_type, r.floor
-            // FROM rooms r WHERE NOT EXISTS (SELECT * FROM reservations rs WHERE rs.room_id = r.room_id
-            // AND (rs.check_in_date <= '$date1' AND rs.check_out_date >= '$date2')); ";
-          
-            //   // Excecute query
-            //   $result2 = $conn->query($sql2);
-            //   if(isset($result2)){
-            //     while($row = $result->fetch_assoc()) {
-            //       echo "Room ID: " . $row["room_id"] . " Room type " . $row["room_type"] . " Floor: " . $row["floor"];
-            //       }
-            //   }else{
-            //     echo "Didnt find anything";
-            //   }
 
             // close connection
             mysqli_close($conn);
@@ -87,10 +96,12 @@
         <?php
         if ($reservation_found == TRUE) {
         ?>
-        <h1>Check-in succesfull <span class="badge bg-secondary">New</span></h1>
+        <h1>Check-in succesfull <span class="badge bg-secondary"></span></h1>
+        <h2><?php echo $message ?></h2>
         <?php
         }else{ ?>
-        <h1>We could not find your reservation <span class="badge bg-secondary">New</span></h1>
+        <h1>We could not find your reservation <span class="badge bg-secondary"></span></h1>
+        <h2><?php echo $message ?></h2>
         <?php 
         };
         ?>
