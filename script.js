@@ -1,3 +1,6 @@
+//Global variable to check if user selected a room type
+var isRoomTypeSelected = false;
+
 // Refresh page in order to change the language
 function refreshPage(selectedOption) {
     window.location.hash = selectedOption;
@@ -8,7 +11,22 @@ function refreshPage(selectedOption) {
 // Set the room type value for hidden input
 function setRoomType(selectedOption){
     document.getElementById('room_type').value = selectedOption;
+    isRoomTypeSelected = true
 }
+
+// Add an event listener to the form submit button
+document.getElementById("submit").addEventListener("click", function(event) {
+
+    // Check if the value of the dropdown menu is empty
+    if (!isRoomTypeSelected) {
+      // Stop the form from submitting
+      event.preventDefault();
+      // Alert the user to select an option
+      alert("Please select an option from the dropdown menu.");
+    }
+  });
+
+
   // Event listeners for language dropdown menu
   document.getElementById("spanish").addEventListener("click", function(){ 
       refreshPage('#es');
