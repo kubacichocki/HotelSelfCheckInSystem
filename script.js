@@ -5,7 +5,11 @@ function refreshPage(selectedOption) {
     document.getElementById('language').value = selectedOption;
   }
 
-  // Event listeners
+// Set the room type value for hidden input
+function setRoomType(selectedOption){
+    document.getElementById('room_type').value = selectedOption;
+}
+  // Event listeners for language dropdown menu
   document.getElementById("spanish").addEventListener("click", function(){ 
       refreshPage('#es');
   });
@@ -23,6 +27,19 @@ function refreshPage(selectedOption) {
     });      
     document.getElementById("romanian").addEventListener("click", function(){ 
         refreshPage('#ro');
+      
+    });
+// Event listeneres for room type dropdown menu
+    document.getElementById("single").addEventListener("click", function(){ 
+        setRoomType('single');
+      
+    });
+    document.getElementById("double").addEventListener("click", function(){ 
+        setRoomType('double');
+      
+    });
+    document.getElementById("twin").addEventListener("click", function(){ 
+        setRoomType('twin');
       
     });
 
