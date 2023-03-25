@@ -22,8 +22,9 @@
             <h2 id="header2">In order to check in, fill the form below<span class="badge bg-secondary"></span></h2>  
             <!-- Bootstrap form -->
             <form action="http://localhost/backend/backend.php" method="POST">
-              <!-- Hidden input to submit language from dropdown menu -->
+              <!-- Hidden input to submit language and roomtype from dropdown menu -->
               <input type="hidden" name="language" id="language">
+              <input type="hidden" name="room_type" id="room_type">
                 <div class="mb-3">
                   <label  class="form-label" id ="name">Enter your name</label>
                   <input type="text" class="form-control" id="nameInput" name="nameInput" aria-describedby="emailHelp" required>
@@ -38,11 +39,25 @@
                   <label class="form-check-label" for="exampleCheck1">Check me out</label>
                 </div>  
                 <div class="row">
-                  <div class="col-6">
+                  <!-- Submit button -->
+                  <div class="col-2">
                     <button type="submit" class="btn btn-primary" id="submit">Submit</button>
                   </div>
-                  <div class="col-6">
-                  <!-- Bootstrap dropdown menu -->
+                  <!-- Room type dropdown menu -->
+                  <div class="col-5">
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Room Type
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+                        <a class="dropdown-item"  value="single" id="single">Single</a>
+                        <a class="dropdown-item"  value="double" id="double">Double</a>
+                        <a class="dropdown-item"  value="twin" id="twin">Twin</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-5">
+                  <!-- Language dropdown menu -->
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       Change Language
@@ -54,6 +69,7 @@
                       <a class="dropdown-item"  id = "bulgarian">Bulgarian</a>
                       <a class="dropdown-item"  id = "romanian">Romanian</a>
                     </div>
+                  </div>
                   </div>
               </form>
    
