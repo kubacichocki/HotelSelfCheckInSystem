@@ -92,21 +92,55 @@
         <!-- Hotel logo -->
         <img src="logo.png" width="350" height = "350" alt="Hotel Logo">
 
-        
+        <!-- Conditional rendering depending on check-in result -->
         <?php
         if ($reservation_found == TRUE) {
         ?>
-        <h1>Check-in succesfull <span class="badge bg-secondary"></span></h1>
-        <h2><?php echo $message ?></h2>
+        <h1 id="success">Check-in succesfull <span class="badge bg-secondary"></span></h1>
+        <h2 id="success2"><?php echo $message ?></h2>
+        <button type="button" class="btn btn-info" onClick="goBack()">Go Back</button>
         <?php
         }else{ ?>
-        <h1>We could not find your reservation <span class="badge bg-secondary"></span></h1>
-        <h2><?php echo $message ?></h2>
+        <h1 id="failure">We could not find your reservation <span class="badge bg-secondary"></span></h1>
+        <h2 id="failure2"><?php echo $message ?></h2>
+        <button type="button" class="btn btn-info" onClick="goBack()">Go Back</button>
         <?php 
         };
         ?>
         </div>
 
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+  //      var language = <?php echo json_encode($language); ?>;
+
+  //     var languages = {
+  //     eng: {
+  //         success: "Check-in was successful.",
+  //         success2: "You have been checked in successfully.",
+  //         failure: "We could not find your reservation.",
+  //         failure2: "Unfortunately, we could not find your reservation. Make sure you entered correct details or go to the reception desk for help",
+  //     },
+  //     es: {
+  //       success: "El registro fue exitoso.",
+  //       success2: "Ha sido registrado con éxito.",
+  //       failure: "No pudimos encontrar su reserva.",
+  //       failure2: "Desafortunadamente, no pudimos encontrar su reserva. Asegúrese de ingresar los detalles correctos o diríjase a la recepción para obtener ayuda."
+  //     }
+  //   }
+
+  //   // Define language through window hash
+  // if(language) {
+  //     if(language === "#es"){
+  //       document.getElementById("failure").innerHTML = languages.es.failure
+  //       document.getElementById("failure2").innerHTML = languages.es.failure2
+  //       document.getElementById("success").innerHTML = languages.es.success
+  //       document.getElementById("success2").innerHTML = languages.es.success2
+  //     }
+  // }
+    </script>
 
 </body>
 </html>

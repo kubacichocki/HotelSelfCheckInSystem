@@ -22,7 +22,7 @@ document.getElementById("submit").addEventListener("click", function(event) {
       // Stop the form from submitting
       event.preventDefault();
       // Alert the user to select an option
-      alert("Please select an option from the dropdown menu.");
+      alert("Please select a room type.");
     }
   });
 
