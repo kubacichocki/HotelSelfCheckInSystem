@@ -77,12 +77,25 @@
                   // Excecute query
                   $assign_room->execute();
                 }
+
+                //Check in query
+                $check_in = $conn->prepare('UPDATE reservations SET is_checked_in = ? WHERE reservation_id = ?');
+
+                // Bind paremeters
+                $is_checked_in = '1';
+                $check_in->bind_param("ss",$is_checked_in,$confirmationNumber);
+                // Excecute query
+                $check_in->execute();
+
+                // We leave this part for the future iterations if company would like to have it done usign QR CODES
+                //Import QR code library
+                // include 'phpqrcode/qrlib.php';
+                // $text = $name . " Check-in Date: " . $check_in_date . " Check-out Date: " . $check_out_date . " Room: " . $current_room;
+                // QRcode::png($text, 'image.png', QR_ECLEVEL_M, 4);
             }else{
               $message = "Unfortunately, we could not find your reservation. Make sure you entered correct details or go to the reception desk for help";
               $reservation_found = FALSE;
             }
-
-
 
             // close connection
             mysqli_close($conn);
@@ -92,21 +105,123 @@
         <!-- Hotel logo -->
         <img src="logo.png" width="350" height = "350" alt="Hotel Logo">
 
-        
+        <!-- Conditional rendering depending on the check-in result -->
         <?php
         if ($reservation_found == TRUE) {
         ?>
-        <h1>Check-in succesfull <span class="badge bg-secondary"></span></h1>
-        <h2><?php echo $message ?></h2>
+          <h1 id="success">You have been checked in successfully.<span class="badge bg-secondary"></span></h1>
+          <h2 id="success2">Please present your confirmation number at the reception desk to receive a room key.</h2>
+          <img src="image.png" alt="QR Code">
+          <button type="button" class="btn btn-info" onClick="goBack()">Go Back</button>
         <?php
         }else{ ?>
-        <h1>We could not find your reservation <span class="badge bg-secondary"></span></h1>
-        <h2><?php echo $message ?></h2>
-        <?php 
+          <h1 id="failure">Unfortunately, we could not find your reservation<span class="badge bg-secondary"></span></h1>
+          <h2 id="failure2">Make sure you enter the correct details or go to the reception desk for help</h2>
+          <button type="button" class="btn btn-info" onClick="goBack()">Go Back</button>
+          <?php 
         };
         ?>
         </div>
 
+    <script>
+      function goBack() {
+        window.history.back();
+      }
+
+      var language = <?php echo json_encode($language); ?>;
+
+      var languages = {
+      eng: {
+          success: "You have been checked in successfully.",
+          success2: "Please present your confirmation number at the reception desk to receive a room key.",
+          failure: "Unfortunately, we could not find your reservation",
+          failure2: "Make sure you enter the correct details or go to the reception desk for help",
+      },
+      es: {
+        success: "El registro fue exitoso.",
+        success2: "Ha sido registrado con éxito.",
+        failure: "No pudimos encontrar su reserva.",
+        failure2: "Desafortunadamente, no pudimos encontrar su reserva. Asegúrese de ingresar los detalles correctos o diríjase a la recepción para obtener ayuda."
+      },
+      pl: {
+        success: "Sukces! Znaleźliśmy Twoją rezerwację",
+        success2: "Proszę udaj się do biurka recepcji z kodem swojej rezerwacji aby otrzymać klucz do pokoju",
+        failure: "Niestety nie mogliśmy znaleźć Twojej rezerwacji",
+        failure2: "Upewnij się, że poprawne dane zostały podane, albo udaj się do biurka recepcji po pomoc",
+      },
+      bg: {
+           success: "Чекирахте се успешно.",
+           success2: "Моля, представете вашия номер за потвърждение на рецепцията, за да получите ключ от стаята.",
+           failure: "За съжаление не можахме да намерим вашата резервация",
+           failure2: "Уверете се, че сте въвели правилните данни или отидете на рецепцията за помощ",
+      },
+      ro: {
+          succes: "Ati rezervat cu success .",
+          succes2:"Va rugam introduceti numarul confirmarii la receptie sa primiti cheia camerei",
+          failure: "Din nefericire, nu putem sa va gasim rezervarea" ,
+          failure2: " Asigurati-va ca v-ati introdus corect detaliile sau mergeti la birou pentru ajutor",
+        },
+      hi: {
+        success: "आपने सफलतापूर्वक चेक इन किया है।",
+        success2: "कृपया अपना पुष्टि संख्या रिसेप्शन डेस्क पर प्रदान करें ताकि आप कमरे का कुंजी प्राप्त करें।", 
+        failure: "दुर्भाग्य से, हम आपका आरक्षण नहीं ढूंढ पाए।",
+        failure2: "सुनिश्चित करें कि आप सही विवरण दर्ज करते हैं या रिसेप्शन डेस्क के लिए मदद के लिए जाएं।",
+      },
+          
+    }
+
+  // Define language through window hash
+  if(language) {
+      // Variable to check if check-in was successful or not
+      let element_failure = document.getElementById('failure');
+
+      if(language === "#es"){
+        if(element_failure){
+          document.getElementById("failure").innerHTML = languages.es.failure
+          document.getElementById("failure2").innerHTML = languages.es.failure2
+        }else{
+          document.getElementById("success").innerHTML = languages.es.success
+          document.getElementById("success2").innerHTML = languages.es.success2
+        }
+      }
+      if(language === "#pl"){
+        if(element_failure){
+          document.getElementById("failure").innerHTML = languages.pl.failure
+          document.getElementById("failure2").innerHTML = languages.pl.failure2
+        }else{
+          document.getElementById("success").innerHTML = languages.pl.success
+          document.getElementById("success2").innerHTML = languages.pl.success2
+        }
+      }
+      if(language === "#bg"){
+        if(element_failure){
+          document.getElementById("failure").innerHTML = languages.bg.failure
+          document.getElementById("failure2").innerHTML = languages.bg.failure2
+        }else{
+          document.getElementById("success").innerHTML = languages.bg.success
+          document.getElementById("success2").innerHTML = languages.bg.success2
+        }
+      }
+      if(language === "#ro"){
+        if(element_failure){
+          document.getElementById("failure").innerHTML = languages.ro.failure
+          document.getElementById("failure2").innerHTML = languages.ro.failure2
+        }else{
+          document.getElementById("success").innerHTML = languages.ro.success
+          document.getElementById("success2").innerHTML = languages.ro.success2
+        }
+      }
+      if(language === "#hi"){
+        if(element_failure){
+          document.getElementById("failure").innerHTML = languages.hi.failure
+          document.getElementById("failure2").innerHTML = languages.hi.failure2
+        }else{
+          document.getElementById("success").innerHTML = languages.hi.success
+          document.getElementById("success2").innerHTML = languages.hi.success2
+        }
+      }
+  }
+    </script>
 
 </body>
 </html>
