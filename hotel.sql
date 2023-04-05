@@ -30,7 +30,7 @@ CREATE TABLE `reservations` (
   `check_out_date` date NOT NULL,
   `is_checked_in` BOOLEAN NOT NULL DEFAULT FALSE,
   `is_checked_out` BOOLEAN NOT NULL DEFAULT FALSE,
-  `user_id` int(10) NOT NULL,
+  `user_id` int(50) NOT NULL,
   `room_id` int(50),
   PRIMARY KEY (`reservation_id`),
   FOREIGN KEY (`user_id`) REFERENCES users(`user_id`),
